@@ -31,11 +31,12 @@ def accuracy(predictions, groundTruth):
 
 # Results
 randomPrediction = base.randomize(300, features, diagnosisBinary)
+randomForestPrediction = randomForest.randomForestFunction(200, features, diagnosisBinary)
 
 # Plot results
 objects = ('Random Forest', 'Naive Bayes', 'Random')
 y_pos = np.arange(len(objects))
-performance = [.8,.7,accuracy(randomPrediction, diagnosisBinary)]
+performance = [accuracy(randomForestPrediction, diagnosisBinary),.7,accuracy(randomPrediction, diagnosisBinary)]
 # performance = [accuracy(randomForestPrediction, diagnosisBinary), accuracy(naiveBayesPrediction, diagnosisBinary), accuracy(randomPrediction, diagnosisBinary)]
  
 plt.barh(y_pos, performance, align='center', alpha=0.5)
