@@ -7,13 +7,14 @@ import base # random case
 import randomForest
 import naiveBayes
 
+
 # Load diagnosis data as numpy array
 diagnosis = csv.reader(open('simpleData.txt'),delimiter = " ")
 diagnosisBinary = []
 for row in diagnosis:
     diagnosisBinary.append(row)
 diagnosisBinary = np.array(diagnosisBinary).astype(np.float)
-# print(sum(diagnosisBinary)) --> 115 positive for cancer
+# print(sum(diagnosisBinary)) --> 115 positive for tumor
 # print diagnosisBinary, diagnosisBinary.shape --> 322 entries, values 0 or 1
 
 # Load feature data as numpy array
@@ -29,19 +30,41 @@ def accuracy(predictions, groundTruth):
             count += 1
     return float(count)/total
 
+
 # Results
 randomPrediction = base.randomize(300, features, diagnosisBinary)
 randomForestPrediction = randomForest.randomForestFunction(200, features, diagnosisBinary)
+gaussianNaiveBayes = naiveBayes.gaussianBayes(200, features, diagnosisBinary)
+
 
 # Plot results
 objects = ('Random Forest', 'Naive Bayes', 'Random')
 y_pos = np.arange(len(objects))
-performance = [accuracy(randomForestPrediction, diagnosisBinary),.7,accuracy(randomPrediction, diagnosisBinary)]
-# performance = [accuracy(randomForestPrediction, diagnosisBinary), accuracy(naiveBayesPrediction, diagnosisBinary), accuracy(randomPrediction, diagnosisBinary)]
+performance = [accuracy(randomForestPrediction, diagnosisBinary),
+               accuracy(gaussianNaiveBayes, diagnosisBinary),
+               accuracy(randomPrediction, diagnosisBinary)]
  
 plt.barh(y_pos, performance, align='center', alpha=0.5)
 plt.yticks(y_pos, objects)
 plt.xlabel('Accuracy')
 plt.title('Accuracy in Cancer Prediction')
  
+plt.show()
+
+# Choosing training number
+numberVector = []
+accuracyVectorRF = []
+accuracyVectorNB = []
+for i in range(1,14):
+    numberVector.append(i*23)
+    aRF = accuracy(randomForest.randomForestFunction(i*7, features, diagnosisBinary), diagnosisBinary)
+    accuracyVectorRF.append(aRF)
+    aNB = accuracy(naiveBayes.gaussianBayes(i*7, features, diagnosisBinary), diagnosisBinary)
+    accuracyVectorNB.append(aNB)
+    
+#plt.plot(numberVector, accuracyVector)
+plt.plot(numberVector, accuracyVector, 'b-', label='Random Forest')
+plt.plot(numberVector, accuracyVector, 'g-', label='Random Naive Bayes')
+plt.ylabel("Accuracy")
+plt.xlabel("Training Number")
 plt.show()

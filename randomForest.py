@@ -11,20 +11,19 @@ def randomForestFunction(trainNumber, features, groundTruth):
     gT = groundTruth
     
     # Trim lists for training
-    features[:trainNumber,:]
-    groundTruth[:trainNumber]
+    features = features[:trainNumber,:]
+    groundTruth = groundTruth[:trainNumber]
     
     # Trim lists for testing
-    f[trainNumber:,:]
-    gT[trainNumber:]
+    f = f[trainNumber:,:]
+    gT = gT[trainNumber:]
     
     # Fit on training data
-    rFC.fit(features, np.reshape(groundTruth,(322,)))
+    rFC.fit(features, np.reshape(groundTruth,(trainNumber,)))
     
     # Whatever this block does
-    RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini', max_depth=2, max_features='auto', max_leaf_nodes=None, min_impurity_split=None, min_samples_leaf=1,  min_samples_split=2, min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=1, oob_score=False, random_state=0, verbose=0, warm_start=False)
+    RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini', max_depth=3, max_features='auto', max_leaf_nodes=None, min_impurity_split=None, min_samples_leaf=1,  min_samples_split=2, min_weight_fraction_leaf=0.0, n_estimators=25, n_jobs=1, oob_score=False, random_state=0, verbose=0, warm_start=False)
     
-    print(rFC.feature_importances_) 
     predictions = rFC.predict(f)
     predictionDict = {}
     for i in range(trainNumber,322):
