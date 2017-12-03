@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 # import classifiers
 import base # random case
 import randomForest
+import gaussianNaiveBayes
+import knn
 import naiveBayes
 
 
@@ -34,7 +36,7 @@ def accuracy(predictions, groundTruth):
 # Results
 randomPrediction = base.randomize(300, features, diagnosisBinary)
 randomForestPrediction = randomForest.randomForestFunction(200, features, diagnosisBinary)
-gaussianNaiveBayes = naiveBayes.gaussianBayes(200, features, diagnosisBinary)
+gaussianNaiveBayes = gaussianNaiveBayes.gaussianBayes(200, features, diagnosisBinary)
 
 
 # Plot results
@@ -59,12 +61,12 @@ for i in range(1,14):
     numberVector.append(i*23)
     aRF = accuracy(randomForest.randomForestFunction(i*7, features, diagnosisBinary), diagnosisBinary)
     accuracyVectorRF.append(aRF)
-    aNB = accuracy(naiveBayes.gaussianBayes(i*7, features, diagnosisBinary), diagnosisBinary)
+    aNB = accuracy(gaussianNaiveBayes.gaussianBayes(i*7, features, diagnosisBinary), diagnosisBinary)
     accuracyVectorNB.append(aNB)
     
 #plt.plot(numberVector, accuracyVector)
-plt.plot(numberVector, accuracyVector, 'b-', label='Random Forest')
-plt.plot(numberVector, accuracyVector, 'g-', label='Random Naive Bayes')
+plt.plot(numberVector, accuracyVectorRF, 'b-', label='Random Forest')
+plt.plot(numberVector, accuracyVectorNB, 'g-', label='Random Naive Bayes')
 plt.ylabel("Accuracy")
 plt.xlabel("Training Number")
 plt.show()
