@@ -5,16 +5,26 @@ import random
 import math
 import numpy as np
 from collections import Counter, defaultdict
+import pandas as pd
+import operator
 
 def naiveBayesAlg(trainNumber, features, groundTruth):
 
-    def occurrences(list1):
-        no_of_examples = len(list1)
-        prob = dict(Counter(list1))
-        print("prob")
-        print(prob)
+    def discretize(data):
+        for k in range(len(data[0])):
+            temp = [] 
+            for i in range(len(data)):
+                temp.append(data[i][k])
+            bin_means = pd.qcut(temp, 10).codes
+            for i in range(len(data)):
+                data[i][k] = bin_means[i]
+        return(data)
+
+    def occurrences(classification):
+        total = len(classification)
+        prob = dict(Counter(classification))
         for key in prob.keys():
-            prob[key] = prob[key] / float(no_of_examples)
+            prob[key] = prob[key]/float(total)
         return prob
 
     def naive_bayes(training, outcome, new_sample):
@@ -28,8 +38,8 @@ def naiveBayesAlg(trainNumber, features, groundTruth):
 
         for cls in classes:
             row_indices = np.where(outcome == cls)[0]
-            subset      = training[row_indices, :]
-            r, c        = np.shape(subset)
+            subset = training[row_indices, :]
+            r, c = np.shape(subset)
             for j in range(0,c):
                 likelihoods[cls][j] += list(subset[:,j])
 
@@ -37,19 +47,17 @@ def naiveBayesAlg(trainNumber, features, groundTruth):
             for j in range(0,cols):
                  likelihoods[cls][j] = occurrences(likelihoods[cls][j])
 
-
         results = {}
         for cls in classes:
             class_probability = class_probabilities[cls]
-            for i in range(0,len(new_sample)):
+            for i in range(len(new_sample)):
                 relative_values = likelihoods[cls][i]
                 if new_sample[i] in relative_values.keys():
                     class_probability *= relative_values[new_sample[i]]
                 else:
                     class_probability *= 0
                 results[cls] = class_probability
-        print results
-
+        return(max(results.iteritems(), key=operator.itemgetter(1))[0])
     
     fullFeatures = features
     fullTruth = groundTruth
@@ -66,7 +74,15 @@ def naiveBayesAlg(trainNumber, features, groundTruth):
     f = f[trainNumber:,:]
     gT = gT[trainNumber:]
     
-    naive_bayes(features, groundTruth, f)
+    # Sort values into discrete bins
+    features = discretize(features) 
+    f = discretize(f)
+    
+    predictions = []
+    for i in range(len(f)): 
+        predictions.append(naive_bayes(features, groundTruth, f[i]))
+        
+    print(predictions)
 
 
     
