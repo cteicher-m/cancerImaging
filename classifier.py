@@ -39,8 +39,8 @@ def accuracy(predictions, groundTruth):
 randomPrediction = base.randomize(300, features, diagnosisBinary)
 randomForestPrediction = randomForest.randomForestFunction(200, features, diagnosisBinary)
 gaussianNaiveBayes = gaussianNaiveBayes.gaussianBayes(200, features, diagnosisBinary)
-knnPrediction = 0
-knnModifiedPrediction = 0
+knnPrediction = knn.findNeighbors(200,features, diagnosisBinary, 10)
+knnModifiedPrediction = knn_modified.findNeighborsWeighted(200,features, diagnosisBinary, 10)
 naiveBayesPrediction = naiveBayes.naiveBayesAlg(200, features, diagnosisBinary)
 supportVectorPrediction = 0
 
@@ -50,11 +50,13 @@ supportVectorPrediction = 0
 # objects = ('Support Vector', 'Modified KNN', 'KNN', 'Naive Bayes', 'Random Forest', 'Gaussian Bayes', 'Random')
 #performance = [accuracy(supportVectorPrediction, diagnosisBinary), accuracy(knnModifiedPrediction, diagnosisBinary), accuracy(knnPrediction, diagnosisBinary), accuracy(naiveBayesPrediction, diagnosisBinary),  accuracy(randomForestPrediction, diagnosisBinary), accuracy(gaussianNaiveBayes, diagnosisBinary), accuracy(randomPrediction, diagnosisBinary)]
  
-objects = ('Random Forest', 'Naive Bayes', 'Random')
+objects = ('Random Forest', 'Naive Bayes', 'Random', 'KNN', 'KNN_Modified')
 y_pos = np.arange(len(objects))
 performance = [accuracy(randomForestPrediction, diagnosisBinary),
                accuracy(gaussianNaiveBayes, diagnosisBinary),
-               accuracy(randomPrediction, diagnosisBinary)]
+               accuracy(randomPrediction, diagnosisBinary),
+               accuracy(knn, diagnosisBinary),
+               accuracy(knn_modified, diagnosisBinary)]
  
 plt.barh(y_pos, performance, align='center', alpha=0.5)
 plt.yticks(y_pos, objects)
