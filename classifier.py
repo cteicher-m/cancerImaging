@@ -7,7 +7,9 @@ import base # random case
 import randomForest
 import gaussianNaiveBayes
 import knn
+import knn_modified
 import naiveBayes
+import supportVector
 
 
 # Load diagnosis data as numpy array
@@ -37,9 +39,17 @@ def accuracy(predictions, groundTruth):
 randomPrediction = base.randomize(300, features, diagnosisBinary)
 randomForestPrediction = randomForest.randomForestFunction(200, features, diagnosisBinary)
 gaussianNaiveBayes = gaussianNaiveBayes.gaussianBayes(200, features, diagnosisBinary)
+knnPrediction = 0
+knnModifiedPrediction = 0
+naiveBayesPrediction = naiveBayes.naiveBayesAlg(200, features, diagnosisBinary)
+supportVectorPrediction = 0
+
 
 
 # Plot results
+# objects = ('Support Vector', 'Modified KNN', 'KNN', 'Naive Bayes', 'Random Forest', 'Gaussian Bayes', 'Random')
+#performance = [accuracy(supportVectorPrediction, diagnosisBinary), accuracy(knnModifiedPrediction, diagnosisBinary), accuracy(knnPrediction, diagnosisBinary), accuracy(naiveBayesPrediction, diagnosisBinary),  accuracy(randomForestPrediction, diagnosisBinary), accuracy(gaussianNaiveBayes, diagnosisBinary), accuracy(randomPrediction, diagnosisBinary)]
+ 
 objects = ('Random Forest', 'Naive Bayes', 'Random')
 y_pos = np.arange(len(objects))
 performance = [accuracy(randomForestPrediction, diagnosisBinary),
@@ -49,7 +59,7 @@ performance = [accuracy(randomForestPrediction, diagnosisBinary),
 plt.barh(y_pos, performance, align='center', alpha=0.5)
 plt.yticks(y_pos, objects)
 plt.xlabel('Accuracy')
-plt.title('Accuracy in Cancer Prediction')
+plt.title('Accuracy in Tumor Detection')
  
 plt.show()
 
