@@ -20,8 +20,8 @@ def findNeighbors(trainingset, testset, k):
     knn_idxs = sortedidxs[:k]
     # vote based on number in k nearest
     vote = np.sum(trainingset[knn_idxs]) 
-    if vote >= len(vote) / 2:
-        return 1
+    if vote >= len(vote) / 2.0:
+        return 1.0
     else:
-        return 0
+        return 0.0
 
