@@ -14,6 +14,13 @@ import knn
 import knn_modified
 import naiveBayes
 import supportVectordiagnosis = csv.reader(open('simpleData.txt'),delimiter = " ")
+import supportVector
+import decisionTrees
+
+
+# Load diagnosis data as numpy array
+diagnosis = csv.reader(open('simpleData.txt'),delimiter = " ")
+
 diagnosisBinary = []
 for row in diagnosis:
     diagnosisBinary.append(row)
@@ -39,10 +46,12 @@ def accuracy(predictions, groundTruth):
 randomPrediction = base.randomize(300, features, diagnosisBinary)
 randomForestPrediction = randomForest.randomForestFunction(200, features, diagnosisBinary)
 gaussianNaiveBayes = gaussianNaiveBayes.gaussianBayes(200, features, diagnosisBinary)
+supportVectorPrediction = supportVector.supportVectorFunction(200, features, diagnosisBinary)
+decisionTreesPrediction = decisionTrees.decisionTreeFunction(200, features, diagnosisBinary)
 knnPrediction = knn.findNeighbors(200,features, diagnosisBinary, 10)
 knnModifiedPrediction = knn_modified.findNeighborsWeighted(200,features, diagnosisBinary, 10)
 naiveBayesPrediction = naiveBayes.naiveBayesAlg(200, features, diagnosisBinary)
-supportVectorPrediction = 0
+
 
 
 
@@ -63,22 +72,4 @@ plt.yticks(y_pos, objects)
 plt.xlabel('Accuracy')
 plt.title('Accuracy in Tumor Detection')
  
-plt.show()
-
-# Choosing training number
-numberVector = []
-accuracyVectorRF = []
-accuracyVectorNB = []
-for i in range(1,14):
-    numberVector.append(i*23)
-    aRF = accuracy(randomForest.randomForestFunction(i*7, features, diagnosisBinary), diagnosisBinary)
-    accuracyVectorRF.append(aRF)
-    aNB = accuracy(gaussianNaiveBayes.gaussianBayes(i*7, features, diagnosisBinary), diagnosisBinary)
-    accuracyVectorNB.append(aNB)
-    
-#plt.plot(numberVector, accuracyVector)
-plt.plot(numberVector, accuracyVectorRF, 'b-', label='Random Forest')
-plt.plot(numberVector, accuracyVectorNB, 'g-', label='Random Naive Bayes')
-plt.ylabel("Accuracy")
-plt.xlabel("Training Number")
 plt.show()
