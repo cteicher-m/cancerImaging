@@ -1,4 +1,4 @@
-# K-nearest neighbors 
+# K-nearest neighbors modified with weights
 # model is the entire training dataset
 
 # laod dataset and randomly split set into training set and 
@@ -12,15 +12,18 @@ from scipy.spatial import distance
 def euclideanDistance(loc1, loc2):
     return distance.eucliean(loc1, loc2)
 
-def findNeighbors(trainingset, testset, k):
+def findNeighborsWeighted(trainingset, testset, k):
     # return 2d matrix of each euclidean distance with respect to two indexes
     distances = cdist(trainingset, testset, 'euclidean')
     sortedidxs = np.argsort(distances)
     # return k nearest indexes
     knn_idxs = sortedidxs[:k]
-    # vote based on number in k nearest
+    # weighted vote based on number in k nearest and weighted by distance
+    for val in knn_idxs:
+        # weight distance 
+        val = 1 / val 
     vote = np.sum(trainingset[knn_idxs]) 
-    if vote >= len(vote) / 2:
+    if vote > 1/2 :
         return 1
     else:
         return 0
