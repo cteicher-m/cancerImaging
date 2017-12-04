@@ -1,3 +1,7 @@
+
+
+
+# Load diagnosis data as numpy array
 import numpy as np 
 import csv
 import matplotlib.pyplot as plt
@@ -9,11 +13,7 @@ import gaussianNaiveBayes
 import knn
 import knn_modified
 import naiveBayes
-import supportVector
-
-
-# Load diagnosis data as numpy array
-diagnosis = csv.reader(open('simpleData.txt'),delimiter = " ")
+import supportVectordiagnosis = csv.reader(open('simpleData.txt'),delimiter = " ")
 diagnosisBinary = []
 for row in diagnosis:
     diagnosisBinary.append(row)
