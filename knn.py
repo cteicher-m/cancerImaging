@@ -51,4 +51,3 @@ def findNeighbors(trainNumber, features, groundTruth, k):
     return(predictionDict)
 
 
-

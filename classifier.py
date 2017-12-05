@@ -9,8 +9,8 @@ import gaussianNaiveBayes
 import knn
 import knn_modified
 import naiveBayes
-# import supportVector
-# import decisionTrees
+import supportVector
+import decisionTrees
 
 
 # Load diagnosis data as numpy array
@@ -40,13 +40,11 @@ gaussianNaiveBayes = gaussianNaiveBayes.gaussianBayes(230, features, diagnosisBi
 #supportVectorPrediction = supportVector.supportVectorFunction(200, features, diagnosisBinary)
 decisionTreesPrediction = decisionTrees.decisionTreeFunction(230, features, diagnosisBinary)
 knnPrediction = knn.findNeighbors(230,features, diagnosisBinary, 10)
-knnModifiedPrediction = knn_modified.findNeighbors(230, features, diagnosisBinary, 10)
-
+knnModifiedPrediction = knn_modified.findNeighborsWeighted(230, features, diagnosisBinary, 10)
 naiveBayesPrediction = naiveBayes.naiveBayesAlg(200, features, diagnosisBinary)
 
 
 # Plot results
-
 objects = ('Support Vector', 'Decision Trees', 'Modified KNN', 'KNN', 'Naive Bayes', 'Random Forest', 'Gaussian Bayes', 'Random')
 y_pos = np.arange(len(objects))
 performance = [.7, 
@@ -57,7 +55,6 @@ performance = [.7,
                accuracy(randomForestPrediction, diagnosisBinary), 
                accuracy(gaussianNaiveBayes, diagnosisBinary), 
                accuracy(randomPrediction, diagnosisBinary)]
-
  
 plt.barh(y_pos, performance, align='center', alpha=0.5)
 plt.yticks(y_pos, objects)

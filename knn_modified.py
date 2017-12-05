@@ -32,6 +32,7 @@ def findNeighborsWeighted(trainNumber, features, groundTruth, k):
     # return 2d matrix of each euclidean distance with respect to two indexes
   
     distances = distance.cdist(X_test, X_train, 'euclidean')
+    # print("distances", distances)
 
 
 
@@ -71,4 +72,3 @@ def findNeighborsWeighted(trainNumber, features, groundTruth, k):
 
 
  
-

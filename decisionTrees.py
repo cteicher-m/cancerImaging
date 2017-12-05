@@ -33,4 +33,3 @@ def decisionTreeFunction(trainNumber, features, groundTruth):
     for i in range(trainNumber,322):
         predictionDict[i] = predictions[i - trainNumber]
     return(predictionDict)
-
