@@ -8,41 +8,67 @@ import math
 import numpy as np
 from scipy.spatial import distance 
 
-# use Euclidean distance to measure differences
-def euclideanDistance(loc1, loc2):
-    total = 0
-    diff = 0
-    for i in range(len(loc1)):
-        diff = loc2(i) - loc1(i)
-        total += diff * diff
-    return float(math.sqrt(total))
+
+import numpy as np 
+import csv
+import matplotlib.pyplot as plt
+
 
 def findNeighborsWeighted(trainNumber, features, groundTruth, k):
 
+    results = []
     groundTruth = np.reshape(groundTruth,(322,))
-    f = features
-    gT = groundTruth
-    
+    # f = features
+    # gT = groundTruth
+
     # Trim lists for training
-    features = features[:trainNumber,:]
-    groundTruth = groundTruth[:trainNumber]
+    X_train = features[:trainNumber]
+    Y_train = groundTruth[:trainNumber]
     
     # Trim lists for testing
-    f = f[trainNumber:,:]
-    gT = gT[trainNumber:]
-    
-    # return 2d matrix of each euclidean distance with respect to two indexes
-    distances = distance.cdist(features, f, 'euclidean')
-    sortedidxs = np.argsort(distances)
-    # return k nearest indexes
-    knn_idxs = sortedidxs[:k]
-    # weighted vote based on number in k nearest and weighted by distance
-    for val in knn_idxs:
-        # weight distance 
-        val = 1 / val 
-    vote = np.sum(features[knn_idxs]) 
-    if vote > len(features) / 2 :
-        return 0.0
-    else:
-        return 1.0
+    X_test = features[trainNumber:]
+    Y_test = groundTruth[trainNumber:]
 
+    # return 2d matrix of each euclidean distance with respect to two indexes
+  
+    distances = distance.cdist(X_test, X_train, 'euclidean')
+    # print("distances", distances)
+
+
+
+    for i in range(len(X_test)):
+        distancestoXTrain = distances[i]
+        sortedidxs = np.argsort(distancestoXTrain)
+        knn_idxs = sortedidxs[:k]
+
+        totaldist_class0 = 0
+        totaldist_class1 = 0
+
+        for j in range(k):
+            if Y_train[knn_idxs[j]] == 0.0:
+                totaldist_class0 += distancestoXTrain[knn_idxs[j]]
+            else:
+                totaldist_class1 += distancestoXTrain[knn_idxs[j]]
+
+
+        vote = np.sum(Y_train[knn_idxs])
+        if np.sum(Y_train[knn_idxs]) == 0:
+            results.append(0.0)
+        elif np.sum(Y_train[knn_idxs]) == k:
+            results.append(1.0)
+        else:
+            totaldist_class1 /= np.sum(Y_train[knn_idxs])
+            totaldist_class0 /= (k-np.sum(Y_train[knn_idxs]))
+            if totaldist_class1 <= totaldist_class0:
+                results.append(1.0)
+            else:
+                results.append(0.0)
+
+    predictionDict = {}
+    for i in range(trainNumber,322):
+        predictionDict[i] = results[i - trainNumber]
+    return(predictionDict)
+
+
+
+ 

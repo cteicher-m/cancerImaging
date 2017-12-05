@@ -26,6 +26,7 @@ def decisionTreeFunction(trainNumber, features, groundTruth):
     	min_weight_fraction_leaf=0.0, max_features='auto', random_state=0, max_leaf_nodes=None, min_impurity_decrease=0.0, 
     	min_impurity_split=None, class_weight=None, presort=False)
 
+
     predictions = dTC.predict(f)
     predictionDict = {}
     for i in range(trainNumber,322):
