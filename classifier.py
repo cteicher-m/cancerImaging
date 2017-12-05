@@ -37,7 +37,7 @@ def accuracy(predictions, groundTruth):
 randomPrediction = base.randomize(300, features, diagnosisBinary)
 randomForestPrediction = randomForest.randomForestFunction(230, features, diagnosisBinary)
 gaussianNaiveBayes = gaussianNaiveBayes.gaussianBayes(230, features, diagnosisBinary)
-#supportVectorPrediction = supportVector.supportVectorFunction(200, features, diagnosisBinary)
+supportVectorPrediction = supportVector.supportVectorFunction(200, features, diagnosisBinary)
 decisionTreesPrediction = decisionTrees.decisionTreeFunction(230, features, diagnosisBinary)
 knnPrediction = knn.findNeighbors(230,features, diagnosisBinary, 10)
 knnModifiedPrediction = knn_modified.findNeighborsWeighted(230, features, diagnosisBinary, 10)

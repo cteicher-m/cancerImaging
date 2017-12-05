@@ -22,7 +22,7 @@ def supportVectorFunction(trainNumber, features, groundTruth):
     svmC.fit(features, np.reshape(groundTruth,(trainNumber,)))
     
     # Passing in params to classifier
-    SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0, decision_function_shape='ovr', degree=3, gamma='auto', 
+    svm.SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0, decision_function_shape='ovr', degree=3, gamma='auto', 
         kernel='rbf', max_iter=-1, probability=False, random_state=0, shrinking=True, tol=0.001, verbose=False)
 
     predictions = svmC.predict(f)
