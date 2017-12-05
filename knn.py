@@ -13,31 +13,6 @@ import numpy as np
 import csv
 import matplotlib.pyplot as plt
 
-# import classifiers
-import base # random case
-import randomForest
-import gaussianNaiveBayes
-import naiveBayes
-import supportVector
-
-# Load diagnosis data as numpy array
-diagnosis = csv.reader(open('simpleData.txt'),delimiter = " ")
-diagnosisBinary = []
-for row in diagnosis:
-    diagnosisBinary.append(row)
-diagnosisBinary = np.array(diagnosisBinary).astype(np.float)
-
-
-features = np.loadtxt('features.txt')
-# print featres, features.shape --> 322 entries, 6 features
-
-
-# use Euclidean distance to measure differences
-# def euclideanDistance(loc1, loc2, length):
-#     distance = 0
-#     for x in range(length):
-#         distance += pow((loc1[x] - loc2[x]), length)
-#     return math.sqrt(distance)
 
 def findNeighbors(trainNumber, features, groundTruth, k):
 
@@ -72,4 +47,4 @@ def findNeighbors(trainNumber, features, groundTruth, k):
     return results
 
 
-print(findNeighbors(200,features, diagnosisBinary, 10))
+
