@@ -14,7 +14,7 @@ import csv
 import matplotlib.pyplot as plt
 
 
-def findNeighbors(trainNumber, features, groundTruth, k):
+def findNeighborsWeighted(trainNumber, features, groundTruth, k):
 
     results = []
     groundTruth = np.reshape(groundTruth,(322,))
@@ -32,7 +32,6 @@ def findNeighbors(trainNumber, features, groundTruth, k):
     # return 2d matrix of each euclidean distance with respect to two indexes
   
     distances = distance.cdist(X_test, X_train, 'euclidean')
-    # print("distances", distances)
 
 
 
