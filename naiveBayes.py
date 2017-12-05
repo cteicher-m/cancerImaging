@@ -1,8 +1,4 @@
 # Naive Bayes implementation
-# Example of Naive Bayes implemented from Scratch in Python
-import csv
-import random
-import math
 import numpy as np
 from collections import Counter, defaultdict
 import pandas as pd
@@ -10,16 +6,18 @@ import operator
 
 def naiveBayesAlg(trainNumber, features, groundTruth):
 
+    # Create distinct bins for each of the continous features
     def discretize(data):
         for k in range(len(data[0])):
             temp = [] 
             for i in range(len(data)):
                 temp.append(data[i][k])
-            bin_means = pd.qcut(temp, 10).codes
+            bin_means = pd.qcut(temp, 25).codes
             for i in range(len(data)):
                 data[i][k] = bin_means[i]
         return(data)
 
+    # General probability for a certain classification or feature bin
     def occurrences(classification):
         total = len(classification)
         prob = dict(Counter(classification))
@@ -27,6 +25,7 @@ def naiveBayesAlg(trainNumber, features, groundTruth):
             prob[key] = prob[key]/float(total)
         return prob
 
+    # Main
     def naive_bayes(training, outcome, new_sample):
         classes = np.unique(outcome)
         rows, cols = np.shape(training)
@@ -57,10 +56,8 @@ def naiveBayesAlg(trainNumber, features, groundTruth):
                 else:
                     class_probability *= 0
                 results[cls] = class_probability
+                
         return(max(results.iteritems(), key=operator.itemgetter(1))[0])
-    
-    fullFeatures = features
-    fullTruth = groundTruth
 
     groundTruth = np.reshape(groundTruth,(322,))
     f = features
@@ -81,8 +78,11 @@ def naiveBayesAlg(trainNumber, features, groundTruth):
     predictions = []
     for i in range(len(f)): 
         predictions.append(naive_bayes(features, groundTruth, f[i]))
-        
-    print(predictions)
+    
+    predictionDict = {}
+    for i in range(trainNumber,322):
+        predictionDict[i] = predictions[i - trainNumber]
+    return(predictionDict)
 
 
     
