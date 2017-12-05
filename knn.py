@@ -44,7 +44,11 @@ def findNeighbors(trainNumber, features, groundTruth, k):
             results.append(1.0)
         else:
             results.append(0.0)
-    return results
+
+    predictionDict = {}
+    for i in range(trainNumber,322):
+        predictionDict[i] = results[i - trainNumber]
+    return(predictionDict)
 
 
 
