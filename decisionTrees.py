@@ -22,7 +22,7 @@ def decisionTreeFunction(trainNumber, features, groundTruth):
     dTC.fit(features, np.reshape(groundTruth,(trainNumber,)))
     
     # Passing in params to classifier
-    DecisionTreeClassifier(criterion=’gini’, splitter=’best’, max_depth=3, min_samples_split=2, min_samples_leaf=1, 
+    DecisionTreeClassifier(criterion='gini', splitter='best', max_depth=3, min_samples_split=2, min_samples_leaf=1, 
     	min_weight_fraction_leaf=0.0, max_features='auto', random_state=0, max_leaf_nodes=None, min_impurity_decrease=0.0, 
     	min_impurity_split=None, class_weight=None, presort=False)
 
