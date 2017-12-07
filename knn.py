@@ -34,11 +34,14 @@ def findNeighbors(trainNumber, features, groundTruth, k):
     distances = distance.cdist(X_test, X_train, 'euclidean')
     # print("distances", distances)
 
+    # find k nearest sorted neighboring values
     for i in range(len(X_test)):
         distancestoXTrain = distances[i]
         sortedidxs = np.argsort(distancestoXTrain)
         knn_idxs = sortedidxs[:k]
 
+        # vote with unweighted values and label with value 
+        # sum if closest to
         vote = np.sum(Y_train[knn_idxs]) 
         if vote >= k/2.0:
             results.append(1.0)

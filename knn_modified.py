@@ -35,7 +35,7 @@ def findNeighborsWeighted(trainNumber, features, groundTruth, k):
     # print("distances", distances)
 
 
-
+    # find nearest neighbord with closest distance
     for i in range(len(X_test)):
         distancestoXTrain = distances[i]
         sortedidxs = np.argsort(distancestoXTrain)
@@ -44,13 +44,14 @@ def findNeighborsWeighted(trainNumber, features, groundTruth, k):
         totaldist_class0 = 0
         totaldist_class1 = 0
 
+        # find score in order to determine which label is more likely
         for j in range(k):
             if Y_train[knn_idxs[j]] == 0.0:
                 totaldist_class0 += distancestoXTrain[knn_idxs[j]]
             else:
                 totaldist_class1 += distancestoXTrain[knn_idxs[j]]
 
-
+        # vote based on score, weighted by distance
         vote = np.sum(Y_train[knn_idxs])
         if np.sum(Y_train[knn_idxs]) == 0:
             results.append(0.0)
